@@ -1582,8 +1582,6 @@ var jsvat = (function() {
 
   //Support of node.js
 
-  if (typeof module === 'object' && module.exports) module.exports = exports;
-
   return exports;
 
 })();

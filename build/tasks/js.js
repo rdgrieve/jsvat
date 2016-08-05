@@ -11,6 +11,7 @@ const notify = require('gulp-notify');
 const plumber = require('gulp-plumber');
 const beautify = require('gulp-beautify');
 const wrap = require('gulp-wrap');
+const closureCompiler = require('google-closure-compiler').gulp();
 
 gulp.task('js', function () {
 
@@ -19,7 +20,7 @@ gulp.task('js', function () {
       '\n\r\'use strict\';' +
       '\n\r<%= contents %>' +
       '\n\r//Support of node.js' +
-      '\n\rif (typeof module === \'object\' && module.exports) module.exports = exports;' +
+      //'\n\rif (typeof module === \'object\' && module.exports) module.exports = exports;' +
       '\n\rreturn exports;' +
       '\n\r})();';
 
@@ -39,7 +40,15 @@ gulp.task('js', function () {
       }))
       .pipe(gulp.dest(config.dest))
       .pipe(sourcemaps.init())
-      .pipe(uglify())
+      .pipe(closureCompiler({
+          compilation_level: 'SIMPLE',
+          warning_level: 'VERBOSE',
+          language_in: 'ECMASCRIPT6_STRICT',
+          language_out: 'ECMASCRIPT5_STRICT',
+          output_wrapper: '(function(){\n%output%\n}).call(this)',
+          js_output_file: 'output.min.js'
+      }))
+      // .pipe(uglify())
       .pipe(rename({basename: config.projectName + '.min'}))
       .pipe(gulp.dest(config.dest))
       .pipe(sourcemaps.write('.'))

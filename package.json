@@ -35,7 +35,9 @@
   "ignore": {},
   "author": "S.Panfilov <se-panfilov@ya.ru> (https://se-panfilov.github.io)",
   "private": false,
-  "dependencies": {},
+  "dependencies": {
+    "google-closure-compiler": "^20160713.2.0"
+  },
   "devDependencies": {
     "chai": "^3.5.0",
     "gulp-beautify": "^2.0.0",
